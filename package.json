@@ -1,0 +1,25 @@
+{
+  "name": "mern-shop",
+  "version": "1.0.0",
+  "description": "A demo shop-like app on MEARN stack",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "vasmitr95@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.2.9",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validate": "^4.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
