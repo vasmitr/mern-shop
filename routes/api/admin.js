@@ -38,7 +38,7 @@ router.post(
             if (categoryId) {
                 // Update
                 Category.findByIdAndUpdate(categoryId, categoryFields)
-                .then(category => res.json({category}))
+                .then(category => res.json(category))
                 .catch(() => {
                     errors.category = 'Category with this ID is no longer exists';
                     return res.status(404).json(errors)
@@ -109,5 +109,56 @@ router.post(
         }
     }
 );
+
+
+// @route   DELETE /api/admin/category/:id
+// @desc    Delete category
+// @access  Private
+router.delete(
+    '/category/:id?',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        let errors = {};
+        const categoryId = req.params.id;
+        
+        if (!req.user.admin) {
+            errors.notadmin = 'Only admin can delete things there'
+            return res.status(403).json(errors)
+        } else {
+            Category.findByIdAndRemove(categoryId)
+            .then(() => res.json({ success: true }))
+            .catch(() => {
+                errors.category = 'Category with this ID is no longer exists';
+                return res.status(404).json(errors)
+            })         
+        }
+    }
+);
+
+
+// @route   DELETE /api/admin/product/:id
+// @desc    Delete product
+// @access  Private
+router.delete(
+    '/product/:id?',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        let errors = {};
+        const productId = req.params.id;
+        
+        if (!req.user.admin) {
+            errors.notadmin = 'Only admin can delete things there'
+            return res.status(403).json(errors)
+        } else {
+            Product.findByIdAndRemove(productId)
+            .then(() => res.json({ success: true }))
+            .catch(() => {
+                errors.product = 'Product with this ID is no longer exists';
+                return res.status(404).json(errors)
+            })         
+        }
+    }
+);
+
 
 module.exports = router;
