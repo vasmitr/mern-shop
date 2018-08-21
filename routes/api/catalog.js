@@ -9,15 +9,13 @@ const Product = require('../../models/Product');
 const validateCategoryInput = require('../../validations/category');
 const validateProductInput = require('../../validations/product');
 
-router.get('/test', (req, res) => res.json({msg: 'Products works'}))
-
 // Admin routes
 
 // @route   POST /api/products/category
-// @desc    Create or update category
+// @desc    Create category
 // @access  Private
 router.post(
-    '/category/create',
+    '/categories/create',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         let errors = {};
@@ -46,11 +44,11 @@ router.post(
 );
 
 
-// @route   POST /api/products/category
-// @desc    Create or update category
+// @route   POST /api/products/create
+// @desc    Create or product
 // @access  Private
 router.post(
-    '/create',
+    '/products/create',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         let errors = {}
@@ -85,6 +83,36 @@ router.post(
             .catch(err => console.log(err));
         }
     }
-)
+);
+
+
+// @route   GET /api/products/:category_id?
+// @desc    Get list of products
+// @access  Public
+router.get('/products/:category_id?', (req, res) => {
+    const category_id = req.params.category_id;
+
+    if (category_id) {
+        Product.find({ category: category_id })
+            .then(products => res.json(products))
+            .catch(() => res.status(404).json({ nocategory: 'Category with this ID is no longer exists' }))
+    } else {
+        Product.find()
+            .then(products => res.json(products))
+            .catch(err => console.log(err))
+    }
+});
+
+
+// @route   GET /api/products/categories
+// @desc    Get list of categories
+// @access  Public
+router.get('/categories', (req, res) => {
+
+    Category.find()
+        .then(categories => res.json(categories))
+        .catch(err => console.log(err))
+
+})
 
 module.exports = router;

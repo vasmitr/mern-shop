@@ -9,7 +9,7 @@ const passport = require('passport');
 
 // Project
 const users = require('./routes/api/users');
-const products = require('./routes/api/products');
+const catalog = require('./routes/api/catalog');
 const orders = require('./routes/api/orders');
 
 
@@ -33,7 +33,7 @@ require('./config/passport')(passport);
 
 // Use routes
 app.use('/api/users', users);
-app.use('/api/products', products);
+app.use('/api/catalog', catalog);
 app.use('/api/orders', orders);
 
 const PORT = process.env.PORT || 5000;
