@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 // Project
 const users = require('./routes/api/users');
@@ -20,9 +21,15 @@ app.use(bodyParser.json());
 
 // DB settings
 const db = process.env.MONGO_URI;
-mongoose.connect(db, {useNewUrlParser: true})
+mongoose.connect(db, { useNewUrlParser: true })
     .then(() => console.log('Mongo connecteg'))
     .catch((err) => console.log(err));
+
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport Config
+require('./config/passport')(passport);
 
 // Use routes
 app.use('/api/users', users);
