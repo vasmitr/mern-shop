@@ -1,9 +1,9 @@
-# Description
+## Description
 
 A shop app on MERN stack.
 
 ----
-# Deploy
+## Deploy
 - Create `.env` file in the root of the project folder
 - Add next variables
     ```
@@ -16,7 +16,7 @@ A shop app on MERN stack.
     ```
 - Use `npm start` to run server or `npm run server` to restart it when files change.
 
-# Use API
+## Use API
 *API Documentation*: https://documenter.getpostman.com/view/3419284/RWTrLFpE
 
 1. Register an user
