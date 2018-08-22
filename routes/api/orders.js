@@ -5,6 +5,9 @@ const passport = require('passport');
 const Order = require('../../models/Order');
 const Product = require('../../models/Product');
 
+const validateOrderInput = require('../../validations/order');
+
+
 // @route   POST api/orders
 // @desc    Create an order
 // @access  Private
@@ -12,6 +15,12 @@ router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
+        const { errors, isValid } = validateOrderInput(req.body);
+
+        if (!isValid) {
+            return res.status(400).json(errors);
+        }
+
         const orderItems = req.body.products;
         const productIds = orderItems.map(item => item.id);
         
