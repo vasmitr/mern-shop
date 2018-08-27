@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently --kill-other \"npm:server\"  \"npm:client\""
   },
   "author": "vasmitr95@gmail.com",
   "license": "MIT",
@@ -22,6 +24,7 @@
     "validator": "^10.6.0"
   },
   "devDependencies": {
+    "concurrently": "^4.0.1",
     "nodemon": "^1.18.3"
   }
 }
