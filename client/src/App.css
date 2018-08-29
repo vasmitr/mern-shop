@@ -4,3 +4,30 @@
     height: 100vh;
     font-size: 1rem;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  min-width: 30%;
+  padding: 1rem;
+  margin: auto;
+  border: 1px solid #ccc;
+
+  &__fieldContainer {
+    margin: 0.1rem;
+  }
+
+  &__input {
+    height: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  &__button {
+    height: 1.5rem;
+    max-width: 30%;
+  }
+
+  &__error {
+    color: red;
+  }
+}
