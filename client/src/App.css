@@ -1,0 +1,71 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-size: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  min-width: 250px;
+  padding: 1rem;
+  margin: auto;
+  border: 1px solid #ccc;
+  box-shadow: 3px 3px 5px #ccc;
+
+  &__header {
+    margin-bottom: 0;
+    color: #333;
+  }
+
+  &__fieldContainer {
+    margin: 0.1rem;
+  }
+
+  &__input {
+    height: 1rem;
+    width: 80%;
+    margin-top: 0.2rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: solid 1px #ccc;
+
+    &--invalid {
+      box-shadow: -1px -1px 2px #ff8175 inset;
+      border: solid 1px #ff8175;
+      transition: 0.5s ease;
+
+      &:focus {
+        box-shadow: none;
+        border: solid 1px #ccc;
+      }
+    }
+  }
+
+  &__button {
+    height: 2rem;
+    max-width: 65%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    background-color: #8c75ff;
+    font-size: 1.5rem;
+    margin-top: auto;
+  }
+
+  &__error {
+    color:#ff8175;
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+
+  &__line {
+    background-color: #ccc;
+    color: #ccc;
+    height: 1px;
+    border: none;
+    width: 100%
+  }
+}
