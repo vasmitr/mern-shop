@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Route } from 'react-router-dom';
 import Header  from './Header';
 import Footer from './Footer';
 
-export default class AppLayout extends Component {
-  render () {
+export default function AppLayout ({component: Component, ...rest}) {
     return (
-      <div>
-        <Header/>
-        { this.props.children }
-        <Footer/>
-      </div>
+      <Route { ...rest } render={(matchProps => {
+        return (
+          <div>
+            <Header/>
+            <Component { ...matchProps }/>
+            <Footer/>
+          </div>
+        )
+      })}>
+    </Route>
     )
-  }
 }

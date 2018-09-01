@@ -14,10 +14,8 @@ class App extends Component {
         <div className="App">
         <BrowserRouter>
           <Switch>
-            <Layout>
-              <Route path='/' exact component={ Register }></Route>
-              <Route path='/register' component={ Register }></Route>
-            </Layout>
+            <Layout path='/' exact={ true } component={ Register }></Layout>
+            <Route path='/register' component={ Register }></Route>
           </Switch>
         </BrowserRouter>
         </div>
