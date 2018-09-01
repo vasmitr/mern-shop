@@ -3,38 +3,60 @@ import styled from 'styled-components';
 
 const Header = styled.header`
   max-width: 100%;
-  height: 200px;
-  background-color: #333;
+  background-color: #fff;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 
-  .header__link {
-    margin: 4rem
-  }
 
-  .header__firstlink {
-    margin-right: auto;
+  @media screen and (min-width: 50rem) {
+    & {
+      flex-flow: row wrap;
+      height: 100px;
+      background-color: #333;
+    }
+
+    .header__firstlink {
+      margin-right: auto;
+    }
   }
 `
 
 const NavLink = styled.a`
+  height: 4rem;
+  border: solid 1px #ccc;
+  width: 100%;
+  color: #333;
+  text-align: center;
   text-decoration: none;
-  color: #fff;
+  line-height: 4rem;
 
-  :hover {
-    color: red;
-  }
+  @media screen and (min-width: 50rem) {
+    & {
+      transition: 0.5s ease;
+      margin: 3rem;
+      width: auto;
+      color: #fff;
+      border: none;
+      text-align: left;
+    }
+
+    :hover {
+      color: var(--blue);
+      transform: translateY(-10px);
+    }
+}
 `
 
 export default () => {
   return (
     <Header className='header'>
-      <NavLink className='header__link header__firstlink' href="#">Home</NavLink>
-      <NavLink className='header__link' href="#">About</NavLink>
-      <NavLink className='header__link' href="#">Log In</NavLink>
-      <NavLink className='header__link' href="#">Sign Up</NavLink>
+      <NavLink className='header__link header__firstlink' href="/">Home</NavLink>
+      <NavLink className='header__link' href="/about">About</NavLink>
+      <NavLink className='header__link' href="/login">Log In</NavLink>
+      <NavLink className='header__link' href="/register">Sign Up</NavLink>
     </Header>
   )
 }

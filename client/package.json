@@ -30,6 +30,8 @@
     "jest": "20.0.4",
     "jwt-decode": "^2.2.0",
     "object-assign": "4.1.1",
+    "postcss-color-function": "^4.0.1",
+    "postcss-custom-properties": "^7.0.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "postcss-nested": "^3.0.0",

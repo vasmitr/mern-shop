@@ -7,9 +7,11 @@ export default function AppLayout ({component: Component, ...rest}) {
     return (
       <Route { ...rest } render={(matchProps => {
         return (
-          <div>
+          <div className="layout">
             <Header/>
-            <Component { ...matchProps }/>
+              <div className="layout__container">
+                <Component { ...matchProps }/>
+              </div>
             <Footer/>
           </div>
         )
