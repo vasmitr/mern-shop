@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { register } from '../reducers'
-import { registerSaga } from '../sagas';
+import { registerSaga, loginSaga } from '../sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,6 +15,7 @@ const store = createStore(
 );
 
 sagaMiddleware.run(registerSaga);
+sagaMiddleware.run(loginSaga);
 
 const action = (type, payload) => store.dispatch({type, payload})
 

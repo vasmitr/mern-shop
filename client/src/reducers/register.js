@@ -1,4 +1,10 @@
-import { REGISTER_USER, REGISTER_SUCESS, REGISTER_ERROR } from '../actionTypes'
+import {
+  REGISTER_USER,
+  REGISTER_SUCCESS,
+  REGISTER_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR
+} from '../actionTypes'
 
 const initialState = {
   loading: false,
@@ -18,7 +24,7 @@ export default function (state = initialState, action) {
         ...state,
         loading: true
       };
-    case REGISTER_SUCESS:
+    case REGISTER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -32,6 +38,20 @@ export default function (state = initialState, action) {
         ok: false,
         user: action.payload
       };
+      case LOGIN_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          ok: true,
+          user: action.payload
+        };
+      case LOGIN_ERROR:
+        return {
+          ...state,
+          loading: false,
+          ok: false,
+          user: action.payload
+        };
     default: 
       return state
   }

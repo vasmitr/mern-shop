@@ -5,7 +5,7 @@ import { store } from './store';
 import { Provider } from 'react-redux';
 
 import { Layout } from './components/appShell';
-import { Register } from './components/register';
+import { Register, Login } from './components/register';
 
 class App extends Component {
   render() {
@@ -16,6 +16,7 @@ class App extends Component {
           <Switch>
             <Layout path='/' exact={ true } component={ Register }></Layout>
             <Route path='/register' component={ Register }></Route>
+            <Route path='/login' component={ Login }></Route>
           </Switch>
         </BrowserRouter>
         </div>
