@@ -33,7 +33,14 @@ class Login extends Component {
     action(LOGIN, { email, password });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount () {
+    // Redirect if user Authorized
+    if (this.props.isAuthorized) {
+      this.props.history.push('/');
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
     if (!isEqual(this.props, nextProps)) {
       this.setState({
         errors: nextProps.user,

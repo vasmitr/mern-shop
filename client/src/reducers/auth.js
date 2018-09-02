@@ -3,12 +3,14 @@ import {
   REGISTER_SUCCESS,
   REGISTER_ERROR,
   LOGIN_SUCCESS,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  LOGOUT
 } from '../actionTypes'
 
 const initialState = {
   loading: false,
   ok: true,
+  isAuthorized: false,
   user: {
     name: '',
     email: '',
@@ -43,6 +45,7 @@ export default function (state = initialState, action) {
           ...state,
           loading: false,
           ok: true,
+          isAuthorized: true,
           user: action.payload
         };
       case LOGIN_ERROR:
@@ -52,6 +55,12 @@ export default function (state = initialState, action) {
           ok: false,
           user: action.payload
         };
+      case LOGOUT:
+        return {
+          ...state,
+          isAuthorized: false,
+          user: initialState.user,
+        }
     default: 
       return state
   }

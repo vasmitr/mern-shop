@@ -1,6 +1,10 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeEvery, call, put } from 'redux-saga/effects';
+import { history } from '../App';
+
+
+import setToken from '../utils/setToken';
 import {
   REGISTER_USER,
   REGISTER_SUCCESS,
@@ -8,6 +12,7 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT,
 } from '../actionTypes'
 
 const _createUser = (data) => {
@@ -38,9 +43,16 @@ const _loginUser = (data) => {
 const loginUser = function* (data) {
   const { res, err } = yield call(_loginUser, data);
   if (res) {
+    const { token } = res.data;
     // Extract user
-    const decoded = jwt_decode(res.data.token);
-    // TODO: save token
+    const decoded = jwt_decode(token);
+    // Set Authorization header
+    setToken(token);
+    // Store in browser
+    localStorage.setItem('token', token);
+
+    history.push('/');
+    
     yield put({ type: LOGIN_SUCCESS, payload: decoded });
   } else {
     yield put({ type: LOGIN_ERROR, payload: err.response.data });
@@ -49,4 +61,14 @@ const loginUser = function* (data) {
 
 export const loginSaga = function* () {
   yield takeEvery(LOGIN, ({ payload }) => loginUser(payload));
+}
+
+const _logoutUser = function () {
+  setToken(null);
+  localStorage.removeItem('token');
+  history.push('/');
+}
+
+export const logoutSaga = function* () {
+  yield takeEvery(LOGOUT, ({ history }) => _logoutUser(history));
 }
