@@ -86,4 +86,4 @@ class Login extends Component {
   }
 }
 
-export default connect(state => state.register)(Login);
+export default connect(state => state.auth)(Login);

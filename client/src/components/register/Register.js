@@ -116,4 +116,4 @@ class Register extends Component {
   }
 }
 
-export default connect(state => state.register)(Register);
+export default connect(state => state.auth)(Register);
