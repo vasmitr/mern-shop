@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 import jwt_decode from 'jwt-decode';
 import { takeEvery, call, put, all } from 'redux-saga/effects';
 import { history } from '../App';
@@ -16,7 +16,7 @@ import {
 } from '../actionTypes'
 
 const _createUser = (data) => {
-  return axios.post('http://127.0.0.1:5000/api/users/register', data)
+  return axios.post('/users/register', data)
     .then(res => ({ res }))
     .catch(err => ({ err }));
 } 
@@ -35,7 +35,7 @@ const registerSaga = function* () {
 }
 
 const _loginUser = (data) => {
-  return axios.post('http://127.0.0.1:5000/api/users/login', data)
+  return axios.post('/users/login', data)
     .then(res => ({ res }))
     .catch(err => ({ err }));
 }
