@@ -9,7 +9,7 @@ import setToken from './utils/setToken';
 
 import { Layout } from './components/appShell';
 import { Register, Login } from './components/register';
-import { LOGIN_SUCCESS } from './actionTypes';
+import { LOGIN_SUCCESS, FETCH_CATEGORIES, FETCH_PRODUCTS } from './actionTypes';
 
 // Access to BrowserHistory
 export const history = createHistory();
@@ -32,6 +32,9 @@ if (token) {
   }
 
 }
+
+store.dispatch({ type: FETCH_CATEGORIES })
+store.dispatch({ type: FETCH_PRODUCTS })
 
 class App extends Component {
   render() {
