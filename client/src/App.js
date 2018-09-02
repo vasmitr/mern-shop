@@ -10,6 +10,7 @@ import setToken from './utils/setToken';
 import { Layout } from './components/appShell';
 import { Register, Login } from './components/register';
 import { LOGIN_SUCCESS, FETCH_CATEGORIES, FETCH_PRODUCTS } from './actionTypes';
+import { CategoryList, ProductList } from './components/catalog';
 
 // Access to BrowserHistory
 export const history = createHistory();
@@ -43,7 +44,8 @@ class App extends Component {
         <Provider store={ store }>
           <div className="App">
             <Switch>
-              <Layout path='/' exact={ true } component={ Register }></Layout>
+              <Layout path='/' exact={ true } component={ CategoryList }></Layout>
+              <Layout path='/products' exact={ true } component={ ProductList }></Layout>
               <Route path='/register' component={ Register }></Route>
               <Route path='/login' component={ Login }></Route>
             </Switch>
