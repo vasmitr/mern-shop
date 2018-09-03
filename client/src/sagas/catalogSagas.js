@@ -22,14 +22,15 @@ const fetchCategories = function* () {
   yield takeEvery(FETCH_CATEGORIES, () => requestCategories());
 }
 
-const _requestProducts = () => {
-  return axios.get('/catalog/products/')
+const _requestProducts = (data) => {
+  const category_id = (data && data.category_id) || '';
+  return axios.get(`/catalog/products/${ category_id }`)
   .then(res => ({ res }))
   .catch(err => ({ err }));
 }
 
-const requestProducts = function* () {
-  const { res, err } = yield call(_requestProducts);
+const requestProducts = function* (data) {
+  const { res, err } = yield call(_requestProducts, data);
 
   if (res) {
     yield put({ type: FETCH_PRODUCTS_SUCCESS, payload: res.data });
@@ -39,7 +40,7 @@ const requestProducts = function* () {
 }
 
 const fetchProducts = function* () {
-  yield takeEvery(FETCH_PRODUCTS, () => requestProducts());
+  yield takeEvery(FETCH_PRODUCTS, ({ payload }) => requestProducts(payload));
 }
 
 export default function* rootSaga () {

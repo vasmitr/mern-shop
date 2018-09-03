@@ -9,7 +9,7 @@ import setToken from './utils/setToken';
 
 import { Layout } from './components/appShell';
 import { Register, Login } from './components/register';
-import { LOGIN_SUCCESS, FETCH_CATEGORIES, FETCH_PRODUCTS } from './actionTypes';
+import { LOGIN_SUCCESS } from './actionTypes';
 import { CategoryList, ProductList } from './components/catalog';
 
 // Access to BrowserHistory
@@ -34,9 +34,6 @@ if (token) {
 
 }
 
-store.dispatch({ type: FETCH_CATEGORIES })
-store.dispatch({ type: FETCH_PRODUCTS })
-
 class App extends Component {
   render() {
     return (
@@ -45,7 +42,7 @@ class App extends Component {
           <div className="App">
             <Switch>
               <Layout path='/' exact={ true } component={ CategoryList }></Layout>
-              <Layout path='/products' exact={ true } component={ ProductList }></Layout>
+              <Layout path='/products/:category_id?' component={ ProductList }></Layout>
               <Route path='/register' component={ Register }></Route>
               <Route path='/login' component={ Login }></Route>
             </Switch>

@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Product from './Product';
+import { action } from '../../store';
+import { FETCH_PRODUCTS } from '../../actionTypes';
 
-const productList = (props) => {
-  return (
-    <div className="categoryList">
-      {
-        props.items
-          .map(product => <Product key={ product.id } { ...product }/>)
-      }
-    </div>
-  )
+class productList extends Component {
+  componentDidMount() {
+    // Fetch products
+    action(FETCH_PRODUCTS, { category_id: this.props.match.params.category_id });
+  }
+  
+  render() {
+    return (
+      <div className="productList">
+        {
+          this.props.items
+            .map(product => <Product key={ product._id } { ...product }/>)
+        }
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {
-  const {items, loading } = state.catalog.categories;
+  const { items, loading } = state.catalog.products;
   return { items, loading };
 }
 
