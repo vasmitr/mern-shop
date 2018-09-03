@@ -12,7 +12,7 @@ class categoryList extends Component {
 
   render() {
     return (
-      <div className="categoryList">
+      <div className="itemList">
         {
           this.props.items
             .map(category => <Category key={ category._id } { ...category }/>)

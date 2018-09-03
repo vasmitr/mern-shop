@@ -2,9 +2,11 @@ import React from 'react'
 
 export default (props) => {
   return (
-    <div className="card">
+    <div className="card itemList__item">
       <h1 className="card__header">{ props.name }</h1>
-      <img src={ props.image } alt={ props.name } className="card__image"/>
+      <div className="card__image">
+        <img src={ props.image } alt={ props.name }/>
+      </div>
       <button className="card__button">To Cart</button>
     </div>
   )

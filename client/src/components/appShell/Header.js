@@ -14,6 +14,13 @@ const Header = styled.header`
   font-size: 1.5rem;
   margin-bottom: 2rem;
 
+  .header__authlinks {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
 
   @media screen and (min-width: 50rem) {
     & {
@@ -24,6 +31,12 @@ const Header = styled.header`
 
     .header__firstlink {
       margin-right: auto;
+    }
+
+    .header__authlinks {
+      display: flex;
+      flex-flow: row wrap;
+      width: auto;
     }
   }
 `

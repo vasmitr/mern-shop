@@ -12,7 +12,7 @@ class productList extends Component {
   
   render() {
     return (
-      <div className="productList">
+      <div className="itemList">
         {
           this.props.items
             .map(product => <Product key={ product._id } { ...product }/>)
