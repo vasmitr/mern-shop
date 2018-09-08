@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { CartWidget } from '../cart';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { action } from '../../store';
@@ -25,7 +26,7 @@ const Header = styled.header`
   @media screen and (min-width: 50rem) {
     & {
       flex-flow: row wrap;
-      height: 100px;
+      height: 150px;
       background-color: #333;
     }
 
@@ -86,6 +87,7 @@ const HeaderCmp = (props) => {
       <NavLink className='header__link header__firstlink' href="/">Home</NavLink>
       <NavLink className='header__link' href="/about">About</NavLink>
       { renderNavlinks(isAuthorized, name) }
+      <CartWidget/>
     </Header>
   )
 }
