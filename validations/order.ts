@@ -1,16 +1,20 @@
-const Validator = require('validator');
-const isEmpty = require('lodash/isEmpty');
+import Validator from 'validator';
+import isEmpty from 'lodash/isEmpty';
+import { OrderErrors } from '../interfaces';
 
-module.exports = function validateOrderInput(data) {
-    const errors = {};
+export default function validateOrderInput(data) {
+    const errors: OrderErrors = {};
 
-    data.products = !isEmpty(data.products) ? data.products : '';
+    const formData = { ...data };
 
-    if (Validator.isEmpty(data.products.toString())) {
+    formData.products = !isEmpty(formData.products) ? formData.products : '';
+
+    if (Validator.isEmpty(formData.products.toString())) {
         errors.products = 'Order requires array of product IDs';
     }
 
-    data.products && data.products.map((product) => {
+    // eslint-disable-next-line no-unused-expressions
+    formData?.products.forEach((product) => {
         const id = !isEmpty(product.id) ? product.id : '';
         const quantity = !isEmpty(product.quantity.toString()) ? product.quantity.toString() : '';
 
@@ -35,4 +39,4 @@ module.exports = function validateOrderInput(data) {
         errors,
         isValid: isEmpty(errors),
     };
-};
+}

@@ -1,31 +1,26 @@
-const express = require('express');
+import { Router } from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { authenticate } from 'passport';
+import User from '../../models/User';
+import validateRegisterInput from '../../validations/register';
+import validateLoginInput from '../../validations/login';
 
-const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-
-// Models
-const User = require('../../models/User');
-
-// Validators
-const validateRegisterInput = require('../../validations/register');
-const validateLoginInput = require('../../validations/login');
-
+const router = Router();
 
 // @route   POST /api/users/register
 // @desc    Register new user
 // @access  Public
 router.post('/register', (req, res) => {
-    let { errors, isValid } = validateRegisterInput(req.body);
+    const { errors, isValid } = validateRegisterInput(req.body);
 
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
-    User.findOne({ email: req.body.email }).then((user) => {
+    return User.findOne({ email: req.body.email }).then((user) => {
         if (user) {
-            errors = { email: 'This email is already taken' };
+            errors.email = 'This email is already taken';
             return res.status(400).json(errors);
         }
         const newUser = new User({
@@ -35,7 +30,7 @@ router.post('/register', (req, res) => {
         });
 
         // Hash user's password
-        bcrypt.genSalt(10, (err, salt) => {
+        return bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (hashErr, hash) => {
                 newUser.password = hash;
                 newUser.save()
@@ -58,23 +53,26 @@ router.post('/login', (req, res) => {
 
     const { email, password } = req.body;
 
-    User.findOne({ email }).then((user) => {
+    return User.findOne({ email }).then((user) => {
         if (!user) {
             errors.email = 'User with this email doesn\'t exists';
             return res.status(404).json(errors);
         }
 
-        bcrypt.compare(password, user.password).then((isMatch) => {
+        return bcrypt.compare(password, user.password).then((isMatch) => {
             if (!isMatch) {
                 errors.password = 'Incorrect password';
                 return res.status(400).json(errors);
             }
             const payload = { id: user.id, name: user.name };
 
-            jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: 3600 }, (err, token) => res.json({
-                success: true,
-                token: `Bearer ${token}`,
-            }));
+            return jwt.sign(payload,
+                process.env.SECRET_KEY,
+                { expiresIn: 3600 },
+                (err, token) => res.json({
+                    success: true,
+                    token: `Bearer ${token}`,
+                }));
         });
     });
 });
@@ -84,14 +82,17 @@ router.post('/login', (req, res) => {
 // @access  Private
 router.get(
     '/current',
-    passport.authenticate('jwt', { session: false }),
+    authenticate('jwt', { session: false }),
     (req, res) => {
         res.json({
+            // @ts-ignore
             id: req.user.id,
+            // @ts-ignore
             name: req.user.name,
+            // @ts-ignore
             email: req.user.email,
         });
     },
 );
 
-module.exports = router;
+export default router;

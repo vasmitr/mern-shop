@@ -1,12 +1,10 @@
-const express = require('express');
+import { Router } from 'express';
+import { authenticate } from 'passport';
+import Order from '../../models/Order';
+import Product from '../../models/Product';
+import validateOrderInput from '../../validations/order';
 
-const router = express.Router();
-const passport = require('passport');
-
-const Order = require('../../models/Order');
-const Product = require('../../models/Product');
-
-const validateOrderInput = require('../../validations/order');
+const router = Router();
 
 
 // @route   POST api/orders
@@ -14,7 +12,7 @@ const validateOrderInput = require('../../validations/order');
 // @access  Private
 router.post(
     '/',
-    passport.authenticate('jwt', { session: false }),
+    authenticate('jwt', { session: false }),
     (req, res) => {
         const { errors, isValid } = validateOrderInput(req.body);
 
@@ -26,19 +24,20 @@ router.post(
         const productIds = orderItems.map((item) => item.id);
 
         // Load products
-        Product.find({ _id: { $in: productIds } })
+        return Product.find({ _id: { $in: productIds } })
             .then((products) => {
                 // Calculate total cost
                 let cost = 0;
-                orderItems.map((item) => {
-                    const [orderProduct] = products.filter((product) => product.id === item.id);
+                orderItems.forEach((item) => {
+                    const orderProduct = products.filter((product) => product.id === item.id)[0];
 
                     if (orderProduct) {
                         cost += item.quantity * orderProduct.price;
                     }
                 });
 
-                Order.create({
+                return Order.create({
+                    // @ts-ignore TODO
                     user: req.user.id,
                     products: productIds,
                     cost,
@@ -55,12 +54,13 @@ router.post(
 // @access  Private
 router.get(
     '/',
-    passport.authenticate('jwt', { session: false }),
+    authenticate('jwt', { session: false }),
     (req, res) => {
+        // @ts-ignore TODO
         Order.find({ user: req.user.id })
             .then((orders) => res.json(orders))
             .catch((err) => console.log(err));
     },
 );
 
-module.exports = router;
+export default router;

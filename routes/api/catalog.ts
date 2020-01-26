@@ -1,9 +1,8 @@
-const express = require('express');
+import * as express from 'express';
+import Category from '../../models/Category';
+import Product from '../../models/Product';
 
 const router = express.Router();
-
-const Category = require('../../models/Category');
-const Product = require('../../models/Product');
 
 
 // @route   GET /api/products/:category_id?
@@ -13,6 +12,7 @@ router.get('/products/:category_id?', (req, res) => {
     const { category_id } = req.params;
 
     if (category_id) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         Product.find({ category: category_id })
             .then((products) => res.json(products))
             .catch(() => res.status(404).json({ nocategory: 'Category with this ID is no longer exists' }));
@@ -33,4 +33,4 @@ router.get('/categories', (req, res) => {
         .catch((err) => console.log(err));
 });
 
-module.exports = router;
+export default router;
