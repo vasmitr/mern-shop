@@ -1,26 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Layout } from 'antd';
+import 'antd/dist/antd.css';
+import LoginModal from './components/auth/LoginModal';
+
 
 const App: React.FC = () => (
-    <div className="App">
-        <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-                    Edit&nbsp;
-                <code>src/App.tsx</code>
-                    &nbsp;and save to reload.
-            </p>
-            <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                    Learn React
-            </a>
-        </header>
-    </div>
+    <Layout>
+        <LoginModal />
+    </Layout>
 );
 
 export default App;
