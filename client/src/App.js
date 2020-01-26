@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Switch, Route } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import './App.css';
 import { store } from './store';
 import { Provider } from 'react-redux';
@@ -13,7 +13,7 @@ import { LOGIN_SUCCESS } from './actionTypes';
 import { CategoryList, ProductList } from './components/catalog';
 
 // Access to BrowserHistory
-export const history = createHistory();
+export const history = createBrowserHistory();
 
 // Check for user's token
 const token = localStorage.getItem('token');
