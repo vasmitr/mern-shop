@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const passport = require('passport');
 
@@ -22,30 +23,30 @@ router.post(
         }
 
         const orderItems = req.body.products;
-        const productIds = orderItems.map(item => item.id);
-        
-        // Load products
-        Product.find({ '_id': { $in: productIds } })
-        .then(products => {
-            // Calculate total cost
-            let cost = 0;
-            orderItems.map(item => {
-                product = products.filter(product => product.id === item.id)[0];
-                
-                if (product) {
-                    cost += item.quantity * product.price;
-                }
-            });
+        const productIds = orderItems.map((item) => item.id);
 
-            Order.create({
-                user: req.user.id,
-                products: productIds,
-                cost: cost
+        // Load products
+        Product.find({ _id: { $in: productIds } })
+            .then((products) => {
+                // Calculate total cost
+                let cost = 0;
+                orderItems.map((item) => {
+                    const [orderProduct] = products.filter((product) => product.id === item.id);
+
+                    if (orderProduct) {
+                        cost += item.quantity * orderProduct.price;
+                    }
+                });
+
+                Order.create({
+                    user: req.user.id,
+                    products: productIds,
+                    cost,
+                })
+                    .then((order) => res.json(order));
             })
-            .then(order => res.json(order))
-        })
-        .catch(err => console.log(err));
-    }
+            .catch((err) => console.log(err));
+    },
 );
 
 
@@ -57,9 +58,9 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         Order.find({ user: req.user.id })
-        .then(orders => res.json(orders))
-        .catch(err => console.log(err));
-    }
+            .then((orders) => res.json(orders))
+            .catch((err) => console.log(err));
+    },
 );
 
 module.exports = router;

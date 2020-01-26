@@ -2,7 +2,7 @@ const Validator = require('validator');
 const isEmpty = require('lodash/isEmpty');
 
 module.exports = function validateOrderInput(data) {
-    let errors = {};
+    const errors = {};
 
     data.products = !isEmpty(data.products) ? data.products : '';
 
@@ -10,7 +10,7 @@ module.exports = function validateOrderInput(data) {
         errors.products = 'Order requires array of product IDs';
     }
 
-    data.products && data.products.map(product => {
+    data.products && data.products.map((product) => {
         const id = !isEmpty(product.id) ? product.id : '';
         const quantity = !isEmpty(product.quantity.toString()) ? product.quantity.toString() : '';
 
@@ -29,10 +29,10 @@ module.exports = function validateOrderInput(data) {
         if (Validator.isEmpty(quantity)) {
             errors.quantity = `Product must contain quantity (id=${id})`;
         }
-     })
+    });
 
     return {
         errors,
-        isValid: isEmpty(errors)
-    }
-}
+        isValid: isEmpty(errors),
+    };
+};

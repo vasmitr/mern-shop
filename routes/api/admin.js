@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const passport = require('passport');
 
@@ -16,12 +17,12 @@ router.post(
     '/category/:id?',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        let errors = {};
+        const errors = {};
         const categoryId = req.params.id;
-        
+
         if (!req.user.admin) {
-            errors.notadmin = 'Only admin can create things there'
-            return res.status(403).json(errors)
+            errors.notadmin = 'Only admin can create things there';
+            return res.status(403).json(errors);
         } else {
             const { errors, isValid } = validateCategoryInput(req.body);
 
@@ -32,25 +33,25 @@ router.post(
             const categoryFields = {
                 name: req.body.name,
                 description: req.body.description,
-                image: req.body.image
+                image: req.body.image,
             };
 
             if (categoryId) {
                 // Update
                 Category.findByIdAndUpdate(categoryId, categoryFields)
-                .then(category => res.json(category))
-                .catch(() => {
-                    errors.category = 'Category with this ID is no longer exists';
-                    return res.status(404).json(errors)
-                })
+                    .then((category) => res.json(category))
+                    .catch(() => {
+                        errors.category = 'Category with this ID is no longer exists';
+                        return res.status(404).json(errors);
+                    });
             } else {
                 // Create
                 Category.create(categoryFields)
-                .then(category => res.json(category))
-                .catch(err => console.log(err));
-            }            
+                    .then((category) => res.json(category))
+                    .catch((err) => console.log(err));
+            }
         }
-    }
+    },
 );
 
 
@@ -61,12 +62,12 @@ router.post(
     '/product/:id?',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        let errors = {}
+        const errors = {};
         const productId = req.params.product_id;
 
         if (!req.user.admin) {
-            errors.notadmin = 'Only admin can create things there'
-            return res.status(403).json(errors)
+            errors.notadmin = 'Only admin can create things there';
+            return res.status(403).json(errors);
         } else {
             const { errors, isValid } = validateProductInput(req.body);
 
@@ -75,22 +76,21 @@ router.post(
             }
 
             Category.findById(req.body.category)
-            .then(category => {
-                if (!category) {
-                    errors.category = 'Category with that ID is not longer exists'
-                    res.status(400).json(errors);
-                } else {
-                    if (productId) {
+                .then((category) => {
+                    if (!category) {
+                        errors.category = 'Category with that ID is not longer exists';
+                        res.status(400).json(errors);
+                    } else if (productId) {
                         // Update
                         Product.findByIdAndUpdate(productId, {
                             name: req.body.name,
                             category: req.body.category,
                             price: req.body.price,
                             description: req.body.description,
-                            image: req.body.image
+                            image: req.body.image,
                         })
-                        .then(product => res.json(product))
-                        .catch(err => console.log(err));
+                            .then((product) => res.json(product))
+                            .catch((err) => console.log(err));
                     } else {
                         // Create
                         Product.create({
@@ -98,16 +98,15 @@ router.post(
                             category: req.body.category,
                             price: req.body.price,
                             description: req.body.description,
-                            image: req.body.image
+                            image: req.body.image,
                         })
-                        .then(product => res.json(product))
-                        .catch(err => console.log(err));
+                            .then((product) => res.json(product))
+                            .catch((err) => console.log(err));
                     }
-                }
-            })
-            .catch(err => console.log(err));
+                })
+                .catch((err) => console.log(err));
         }
-    }
+    },
 );
 
 
@@ -118,21 +117,20 @@ router.delete(
     '/category/:id?',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        let errors = {};
+        const errors = {};
         const categoryId = req.params.id;
-        
+
         if (!req.user.admin) {
-            errors.notadmin = 'Only admin can delete things there'
-            return res.status(403).json(errors)
-        } else {
-            Category.findByIdAndRemove(categoryId)
+            errors.notadmin = 'Only admin can delete things there';
+            return res.status(403).json(errors);
+        }
+        Category.findByIdAndRemove(categoryId)
             .then(() => res.json({ success: true }))
             .catch(() => {
                 errors.category = 'Category with this ID is no longer exists';
-                return res.status(404).json(errors)
-            })         
-        }
-    }
+                return res.status(404).json(errors);
+            });
+    },
 );
 
 
@@ -143,21 +141,20 @@ router.delete(
     '/product/:id?',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        let errors = {};
+        const errors = {};
         const productId = req.params.id;
-        
+
         if (!req.user.admin) {
-            errors.notadmin = 'Only admin can delete things there'
-            return res.status(403).json(errors)
-        } else {
-            Product.findByIdAndRemove(productId)
+            errors.notadmin = 'Only admin can delete things there';
+            return res.status(403).json(errors);
+        }
+        Product.findByIdAndRemove(productId)
             .then(() => res.json({ success: true }))
             .catch(() => {
                 errors.product = 'Product with this ID is no longer exists';
-                return res.status(404).json(errors)
-            })         
-        }
-    }
+                return res.status(404).json(errors);
+            });
+    },
 );
 
 
