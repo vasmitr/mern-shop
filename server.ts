@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -10,7 +12,8 @@ import catalog from './routes/api/catalog';
 import orders from './routes/api/orders';
 import admin from './routes/api/admin';
 
-dotenv.config();
+const env = dotenv.config();
+dotenvExpand(env);
 
 const app = express();
 
@@ -23,8 +26,8 @@ app.use(cors());
 // DB settings
 const db = process.env.MONGO_URI;
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Mongo connecteg'))
-    .catch((err) => console.log(err));
+    .then(() => console.log('Mongo connected'))
+    .catch((err) => console.error(err));
 
 // Passport middleware
 app.use(passport.initialize());
