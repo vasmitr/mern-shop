@@ -9,7 +9,7 @@ A shop app on MERN stack.
     ```
     MONGO_USER=<Your db user>
     MONGO_PWD=<Your db password
-    MONGO_URI=mongodb://${MONGO_USER}:${MONGO_PWD}@127.0.0.1:27017
+    MONGO_URI=mongodb://${MONGO_USER}:${MONGO_PWD}@127.0.0.1:27017/mern-shop
     SECRET_KEY=<your secret>
     ```
 - Install `docker` and `docker-compose`
