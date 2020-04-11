@@ -3,6 +3,8 @@ import * as React from 'react';
 import {
     Button, Form, Input, Modal,
 } from 'antd';
+import { useDispatch } from 'react-redux';
+import {loginFailureAction, loginRequestAction, loginSuccessAction} from "../../redux/actions/loginActions";
 
 const formItemLayout = {
     labelCol: {
@@ -16,6 +18,8 @@ const formItemLayout = {
 };
 
 const LoginModal: React.FC = () => {
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = React.useState({
         email: '',
         password: '',
@@ -27,7 +31,16 @@ const LoginModal: React.FC = () => {
 
     const handleSubmit = async (e: React.SyntheticEvent): Promise<void> => {
         e.preventDefault();
-        await axios.post('http://localhost:5000/api/users/login', formData);
+        dispatch(loginRequestAction());
+        try {
+            const res = await axios.post('http://127.0.0.1:5000/api/users/login', formData);
+            dispatch(loginSuccessAction({
+                token: res.data.token,
+                username: formData.email
+            }));
+        } catch (e) {
+            dispatch(loginFailureAction(e.response.data.email));
+        }
     };
 
 
