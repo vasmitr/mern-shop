@@ -4,7 +4,11 @@ import {
     Button, Form, Input, Modal,
 } from 'antd';
 import { useDispatch } from 'react-redux';
-import {loginFailureAction, loginRequestAction, loginSuccessAction} from "../../redux/actions/loginActions";
+import {
+    loginFailureAction,
+    loginRequestAction,
+    loginSuccessAction
+} from "../../redux/actions/loginActions";
 
 const formItemLayout = {
     labelCol: {

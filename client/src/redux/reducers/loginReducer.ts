@@ -29,7 +29,8 @@ export default function (state: LoginState = loginDefaultState, action: Actions)
                 ...state,
                 success: true,
                 loading: false,
-                data: action.payload
+                data: action.payload,
+                error: ''
             };
         case loginFailureAction.type:
             return {

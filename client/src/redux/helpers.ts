@@ -6,23 +6,27 @@ export const fetchDataMixin = {
 };
 
 
-type Action<P, T> = {
+type Action<T, P> = {
     (payload: P): {
-        payload: P;
         type: T;
+        payload: P;
     };
     type: T;
 };
 
-export function createAction<P = void, T = string,> (
-    type: T extends string ? T : never
+export function createAction<T extends string> (
+    type: T
 ) {
-    const action: Action<P, T> = (payload: P) => ({
-        payload,
-        type
-    });
+    return function creator<P = void>(): Action<T, P> {
+        function action (payload: P) {
+            return {
+                type,
+                payload
+            }
+        }
 
-    action.type = type;
+        action.type = type;
 
-    return action;
+        return action;
+    }
 }
